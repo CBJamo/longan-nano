@@ -53,7 +53,7 @@ pub struct LcdPins {
 }
 
 /// Constructs LCD driver from the required components
-pub fn configure(spi: SPI0, pins: LcdPins, afio: &mut Afio, rcu: &mut Rcu) -> Lcd {
+pub fn configure(spi: SPI0, pins: LcdPins, afio: &mut Afio, rcu: &mut Rcu, orientation: &Orientation ) -> Lcd {
     let (width, height) = (160, 80);
     let spi0 = Spi::spi0(
         spi,
@@ -77,7 +77,7 @@ pub fn configure(spi: SPI0, pins: LcdPins, afio: &mut Afio, rcu: &mut Rcu) -> Lc
         height);
     let mut delay = McycleDelay::new(&rcu.clocks);
     lcd.init(&mut delay).unwrap();
-    lcd.set_orientation(&Orientation::Landscape).unwrap();
+    lcd.set_orientation(orientation).unwrap();
     lcd.set_offset(1, 26);
 
     lcd
